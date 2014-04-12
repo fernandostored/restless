@@ -1,7 +1,11 @@
 import six
 
 from django.conf import settings
-from django.conf.urls import patterns, url
+try:
+    from django.conf.urls import patterns, url
+except ImportError:
+    from django.conf.urls.defaults import patterns, url
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
@@ -11,6 +15,7 @@ from .resources import Resource
 
 
 class DjangoResource(Resource):
+
     """
     A Django-specific ``Resource`` subclass.
 
@@ -85,6 +90,6 @@ class DjangoResource(Resource):
         :returns: A ``patterns`` object for ``include(...)``
         """
         return patterns('',
-            url(r'^$', cls.as_list(), name=cls.build_url_name('list', name_prefix)),
-            url(r'^(?P<pk>\d+)/$', cls.as_detail(), name=cls.build_url_name('detail', name_prefix)),
-        )
+                        url(r'^$', cls.as_list(), name=cls.build_url_name('list', name_prefix)),
+                        url(r'^(?P<pk>\d+)/$', cls.as_detail(), name=cls.build_url_name('detail', name_prefix)),
+                        )
