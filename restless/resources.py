@@ -155,7 +155,7 @@ class Resource(object):
         :rtype: string
         """
         # By default, Django-esque.
-        return self.request.body
+        return self.request.raw_post_data
 
     def build_response(self, data, status=200):
         """
